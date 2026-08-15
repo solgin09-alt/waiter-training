@@ -124,7 +124,9 @@
     />
   </header>
 
-  <main class="container">
+  <<main class="container" id="menuContainer">
+  <div>Загрузка меню...</div>
+</main>
 
     <section class="section">
       <div class="section-title">Рыба</div>
@@ -199,6 +201,8 @@
   <script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
   const SUPABASE_URL = "https://amvdqxpndhlbufubiosk.supabase.co";
   const SUPABASE_KEY = "sb_publishable_Qx1-_jeg3aSK0cko4fQPoA_BirwNKz4";
@@ -208,40 +212,152 @@
     SUPABASE_KEY
   );
 
-  async function testConnection() {
-    const { data, error } = await supabaseClient
-      .from("sections")
-      .select("*");
+  const menuContainer = document.getElementById("menuContainer");
+  const searchInput = document.getElementById("searchInput");
 
-    if (error) {
-      console.error("Ошибка Supabase:", error);
+  let allSections = [];
+  let allDishes = [];
+
+  async function loadMenu() {
+    const { data: sections, error: sectionsError } =
+      await supabaseClient
+        .from("sections")
+        .select("*")
+        .order("sort_order", { ascending: true });
+
+    const { data: dishes, error: dishesError } =
+      await supabaseClient
+        .from("dishes")
+        .select("*")
+        .eq("is_visible", true)
+        .order("sort_order", { ascending: true });
+
+    if (sectionsError || dishesError) {
+      console.error(sectionsError || dishesError);
+      menuContainer.innerHTML = `
+        <div>Не удалось загрузить меню</div>
+      `;
       return;
     }
 
-    console.log("Supabase подключен!");
-    console.log(data);
+    allSections = sections || [];
+    allDishes = dishes || [];
+
+    renderMenu();
   }
 
-  testConnection();
+  function renderMenu(searchValue = "") {
+    const query = searchValue.toLowerCase().trim();
 
-  const searchInput = document.getElementById("searchInput");
-  const cards = document.querySelectorAll(".card");
+    menuContainer.innerHTML = "";
+
+    allSections.forEach(section => {
+      const sectionDishes = allDishes.filter(dish => {
+        const matchesSection = dish.section_id === section.id;
+
+        const matchesSearch =
+          !query ||
+          dish.name.toLowerCase().includes(query);
+
+        return matchesSection && matchesSearch;
+      });
+
+      if (sectionDishes.length === 0) {
+        return;
+      }
+
+      const sectionElement = document.createElement("section");
+      sectionElement.className = "section";
+
+      sectionElement.innerHTML = `
+        <div class="section-title">${escapeHtml(section.name)}</div>
+        <div class="cards"></div>
+      `;
+
+      const cardsContainer =
+        sectionElement.querySelector(".cards");
+
+      sectionDishes.forEach(dish => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const image =
+          dish.photo_url ||
+          "https://placehold.co/600x400?text=Fish+Point";
+
+        card.innerHTML = `
+          <img
+            src="${escapeHtml(image)}"
+            alt="${escapeHtml(dish.name)}"
+          />
+
+          <div class="card-content">
+            <div class="dish-name">
+              ${escapeHtml(dish.name)}
+            </div>
+
+            ${
+              dish.short_description
+                ? `
+                  <div class="description">
+                    ${escapeHtml(dish.short_description)}
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              dish.ingredients
+                ? `
+                  <div class="ingredients">
+                    <span class="label">Состав:</span>
+                    ${escapeHtml(dish.ingredients)}
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              dish.waiter_note
+                ? `
+                  <div class="waiter-note">
+                    <span class="label">Официанту:</span>
+                    ${escapeHtml(dish.waiter_note)}
+                  </div>
+                `
+                : ""
+            }
+          </div>
+        `;
+
+        cardsContainer.appendChild(card);
+      });
+
+      menuContainer.appendChild(sectionElement);
+    });
+
+    if (!menuContainer.innerHTML.trim()) {
+      menuContainer.innerHTML =
+        "<div>Ничего не найдено</div>";
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
   searchInput.addEventListener("input", function () {
-    const value = this.value.toLowerCase().trim();
-
-    cards.forEach(card => {
-      const name = card.dataset.name;
-
-      if (name.includes(value)) {
-        card.classList.remove("hidden");
-      } else {
-        card.classList.add("hidden");
-      }
-    });
+    renderMenu(this.value);
   });
+
+  loadMenu();
 </script>
-  </script>
+  
 
 </body>
 </html>
