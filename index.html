@@ -198,10 +198,7 @@
   </main>
 
 
-  <script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
   const SUPABASE_URL = "https://amvdqxpndhlbufubiosk.supabase.co";
@@ -234,9 +231,7 @@
 
     if (sectionsError || dishesError) {
       console.error(sectionsError || dishesError);
-      menuContainer.innerHTML = `
-        <div>Не удалось загрузить меню</div>
-      `;
+      menuContainer.innerHTML = "Ошибка загрузки меню";
       return;
     }
 
@@ -252,32 +247,25 @@
     menuContainer.innerHTML = "";
 
     allSections.forEach(section => {
-      const sectionDishes = allDishes.filter(dish => {
-        const matchesSection = dish.section_id === section.id;
+      const dishes = allDishes.filter(dish =>
+        dish.section_id === section.id &&
+        (!query || dish.name.toLowerCase().includes(query))
+      );
 
-        const matchesSearch =
-          !query ||
-          dish.name.toLowerCase().includes(query);
-
-        return matchesSection && matchesSearch;
-      });
-
-      if (sectionDishes.length === 0) {
-        return;
-      }
+      if (!dishes.length) return;
 
       const sectionElement = document.createElement("section");
       sectionElement.className = "section";
 
       sectionElement.innerHTML = `
-        <div class="section-title">${escapeHtml(section.name)}</div>
+        <div class="section-title">${section.name}</div>
         <div class="cards"></div>
       `;
 
       const cardsContainer =
         sectionElement.querySelector(".cards");
 
-      sectionDishes.forEach(dish => {
+      dishes.forEach(dish => {
         const card = document.createElement("article");
         card.className = "card";
 
@@ -286,47 +274,28 @@
           "https://placehold.co/600x400?text=Fish+Point";
 
         card.innerHTML = `
-          <img
-            src="${escapeHtml(image)}"
-            alt="${escapeHtml(dish.name)}"
-          />
+          <img src="${image}" alt="${dish.name}">
 
           <div class="card-content">
+
             <div class="dish-name">
-              ${escapeHtml(dish.name)}
+              ${dish.name}
             </div>
 
-            ${
-              dish.short_description
-                ? `
-                  <div class="description">
-                    ${escapeHtml(dish.short_description)}
-                  </div>
-                `
-                : ""
-            }
+            <div class="description">
+              ${dish.short_description || ""}
+            </div>
 
-            ${
-              dish.ingredients
-                ? `
-                  <div class="ingredients">
-                    <span class="label">Состав:</span>
-                    ${escapeHtml(dish.ingredients)}
-                  </div>
-                `
-                : ""
-            }
+            <div class="ingredients">
+              <span class="label">Состав:</span>
+              ${dish.ingredients || ""}
+            </div>
 
-            ${
-              dish.waiter_note
-                ? `
-                  <div class="waiter-note">
-                    <span class="label">Официанту:</span>
-                    ${escapeHtml(dish.waiter_note)}
-                  </div>
-                `
-                : ""
-            }
+            <div class="waiter-note">
+              <span class="label">Официанту:</span>
+              ${dish.waiter_note || ""}
+            </div>
+
           </div>
         `;
 
@@ -336,19 +305,9 @@
       menuContainer.appendChild(sectionElement);
     });
 
-    if (!menuContainer.innerHTML.trim()) {
-      menuContainer.innerHTML =
-        "<div>Ничего не найдено</div>";
+    if (!menuContainer.children.length) {
+      menuContainer.innerHTML = "Ничего не найдено";
     }
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
   }
 
   searchInput.addEventListener("input", function () {
@@ -357,7 +316,6 @@
 
   loadMenu();
 </script>
-  
 
 </body>
 </html>
