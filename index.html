@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fish Point — обучение официантов</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      color: #111;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
+      padding: 14px 16px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 6px;
+    }
+
+    .card {
+      min-width: 82vw;
+      max-width: 340px;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+    }
+
+    .card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .card-content {
+      padding: 14px;
+    }
+
+    .dish-name {
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .ingredients,
+    .waiter-note {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo">Fish Point</div>
+    <input
+      id="searchInput"
+      class="search"
+      type="text"
+      placeholder="Поиск блюда..."
+    />
+  </header>
+
+  <main class="container">
+
+    <section class="section">
+      <div class="section-title">Рыба</div>
+
+      <div class="cards">
+
+        <article class="card" data-name="филе лосося">
+          <img
+            src="https://images.unsplash.com/photo-1467003909585-2f8a72700288"
+            alt="Филе лосося"
+          />
+
+          <div class="card-content">
+            <div class="dish-name">Филе лосося</div>
+
+            <div class="description">
+              Нежное филе лосося, приготовленное на гриле.
+            </div>
+
+            <div class="ingredients">
+              <span class="label">Состав:</span>
+              лосось, соль, перец, лимон
+            </div>
+
+            <div class="waiter-note">
+              <span class="label">Официанту:</span>
+              можно рекомендовать как основное блюдо
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="section-title">Морепродукты</div>
+
+      <div class="cards">
+
+        <article class="card" data-name="креветки">
+          <img
+            src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47"
+            alt="Креветки"
+          />
+
+          <div class="card-content">
+            <div class="dish-name">Креветки</div>
+
+            <div class="description">
+              Креветки с чесночным соусом.
+            </div>
+
+            <div class="ingredients">
+              <span class="label">Состав:</span>
+              креветки, чеснок, сливочное масло
+            </div>
+
+            <div class="waiter-note">
+              <span class="label">Официанту:</span>
+              хорошо подходят для рекомендации к напиткам
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const cards = document.querySelectorAll(".card");
+
+    searchInput.addEventListener("input", function () {
+      const value = this.value.toLowerCase().trim();
+
+      cards.forEach(card => {
+        const name = card.dataset.name;
+
+        if (name.includes(value)) {
+          card.classList.remove("hidden");
+        } else {
+          card.classList.add("hidden");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
