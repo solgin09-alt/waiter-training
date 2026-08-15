@@ -197,22 +197,50 @@
 
 
   <script>
-    const searchInput = document.getElementById("searchInput");
-    const cards = document.querySelectorAll(".card");
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    searchInput.addEventListener("input", function () {
-      const value = this.value.toLowerCase().trim();
+<script>
+  const SUPABASE_URL = "https://amvdqxpndhlbufubiosk.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Qx1-_jeg3aSK0cko4fQPoA_BirwNKz4";
 
-      cards.forEach(card => {
-        const name = card.dataset.name;
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-        if (name.includes(value)) {
-          card.classList.remove("hidden");
-        } else {
-          card.classList.add("hidden");
-        }
-      });
+  async function testConnection() {
+    const { data, error } = await supabaseClient
+      .from("sections")
+      .select("*");
+
+    if (error) {
+      console.error("Ошибка Supabase:", error);
+      return;
+    }
+
+    console.log("Supabase подключен!");
+    console.log(data);
+  }
+
+  testConnection();
+
+  const searchInput = document.getElementById("searchInput");
+  const cards = document.querySelectorAll(".card");
+
+  searchInput.addEventListener("input", function () {
+    const value = this.value.toLowerCase().trim();
+
+    cards.forEach(card => {
+      const name = card.dataset.name;
+
+      if (name.includes(value)) {
+        card.classList.remove("hidden");
+      } else {
+        card.classList.add("hidden");
+      }
     });
+  });
+</script>
   </script>
 
 </body>
