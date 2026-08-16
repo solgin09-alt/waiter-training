@@ -93,15 +93,26 @@ transition: transform 0.08s linear,
   filter: blur(0);
 }
 
-.section.section-leaving {
-  opacity: 0.55;
-  transform:
-    translateY(-18px)
-    scale(0.97);
+.section.section-leaving-up {
+  opacity: 0.22;
 
-  filter: blur(1.5px);
+  transform:
+    translateY(-70px)
+    scale(0.91);
+
+  filter: blur(5px);
 }
 
+
+.section.section-leaving-down {
+  opacity: 0.22;
+
+  transform:
+    translateY(70px)
+    scale(0.91);
+
+  filter: blur(5px);
+}
 .hero-logo {
   display: flex;
   justify-content: center;
@@ -650,7 +661,22 @@ const heroScale = 1 - progress * 0.04;
 hero.style.opacity = heroOpacity;
 hero.style.transform = `scale(${heroScale})`;
 });
-  const sectionObserver =
+  let lastScrollY = window.scrollY;
+let scrollDirection = "down";
+
+window.addEventListener("scroll", () => {
+  const currentY = window.scrollY;
+
+  scrollDirection =
+    currentY > lastScrollY
+      ? "down"
+      : "up";
+
+  lastScrollY = currentY;
+});
+
+
+const sectionObserver =
   new IntersectionObserver(
     (entries) => {
 
@@ -660,21 +686,39 @@ hero.style.transform = `scale(${heroScale})`;
 
         if (entry.isIntersecting) {
 
+          section.classList.remove(
+            "section-leaving-up",
+            "section-leaving-down"
+          );
+
           section.classList.add(
             "section-visible"
           );
 
-          section.classList.remove(
-            "section-leaving"
-          );
-
         } else {
 
-          if (
-            entry.boundingClientRect.top < 0
-          ) {
+          section.classList.remove(
+            "section-visible"
+          );
+
+          if (scrollDirection === "down") {
+
             section.classList.add(
-              "section-leaving"
+              "section-leaving-up"
+            );
+
+            section.classList.remove(
+              "section-leaving-down"
+            );
+
+          } else {
+
+            section.classList.add(
+              "section-leaving-down"
+            );
+
+            section.classList.remove(
+              "section-leaving-up"
             );
           }
 
@@ -684,12 +728,10 @@ hero.style.transform = `scale(${heroScale})`;
 
     },
     {
-      threshold: 0.25,
-      rootMargin:
-        "-8% 0px -12% 0px"
+      threshold: 0.45,
+      rootMargin: "-18% 0px -18% 0px"
     }
   );
-
 
 function observeSections() {
 
