@@ -68,6 +68,39 @@ transition: transform 0.08s linear,
             opacity 0.08s linear,
             filter 0.08s linear;
 }
+    .section {
+  margin-bottom: 28px;
+
+  opacity: 0;
+  transform:
+    translateY(42px)
+    scale(0.96);
+
+  filter: blur(4px);
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(.2,.8,.2,1),
+    filter 0.7s ease;
+}
+
+.section.section-visible {
+  opacity: 1;
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+}
+
+.section.section-leaving {
+  opacity: 0.55;
+  transform:
+    translateY(-18px)
+    scale(0.97);
+
+  filter: blur(1.5px);
+}
 
 .hero-logo {
   display: flex;
@@ -560,9 +593,14 @@ transition: transform 0.08s linear,
       menuContainer.appendChild(sectionElement);
     });
 
-    if (!menuContainer.children.length) {
-      menuContainer.innerHTML = "Ничего не найдено";
-    }
+    observeSections();
+
+  if (!menuContainer.children.length) {
+  menuContainer.innerHTML = "Ничего не найдено";
+  return;
+}
+
+observeSections();
   }
 
   searchInput.addEventListener("input", function () {
@@ -612,6 +650,57 @@ const heroScale = 1 - progress * 0.04;
 hero.style.opacity = heroOpacity;
 hero.style.transform = `scale(${heroScale})`;
 });
+  const sectionObserver =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(entry => {
+
+        const section = entry.target;
+
+        if (entry.isIntersecting) {
+
+          section.classList.add(
+            "section-visible"
+          );
+
+          section.classList.remove(
+            "section-leaving"
+          );
+
+        } else {
+
+          if (
+            entry.boundingClientRect.top < 0
+          ) {
+            section.classList.add(
+              "section-leaving"
+            );
+          }
+
+        }
+
+      });
+
+    },
+    {
+      threshold: 0.25,
+      rootMargin:
+        "-8% 0px -12% 0px"
+    }
+  );
+
+
+function observeSections() {
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section => {
+
+      sectionObserver.observe(section);
+
+    });
+}
 </script>
 
 </body>
