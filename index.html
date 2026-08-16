@@ -64,10 +64,47 @@
 }
 
 .hero-logo {
-  font-size: clamp(54px, 14vw, 100px);
-  font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 0.95;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transform: translateY(20px) scale(0.94);
+
+  animation: heroLogoIn 1.2s ease forwards;
+}
+
+.hero-logo img {
+  width: min(78vw, 520px);
+  max-height: 46vh;
+  object-fit: contain;
+.hero-logo {
+  position: relative;
+}
+
+.hero-logo::before {
+  content: "";
+  position: absolute;
+
+  width: 75vw;
+  height: 75vw;
+  max-width: 500px;
+  max-height: 500px;
+
+  background: radial-gradient(
+    circle,
+    rgba(180, 120, 55, 0.20) 0%,
+    rgba(120, 80, 35, 0.08) 40%,
+    transparent 70%
+  );
+
+  filter: blur(18px);
+  z-index: -1;
+  pointer-events: none;
+}
+  filter:
+    drop-shadow(0 10px 30px rgba(0,0,0,0.35));
+}
 
   opacity: 0;
   transform: translateY(20px) scale(0.96);
@@ -238,7 +275,9 @@
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
-    <div class="hero-logo">Fish Point</div>
+    <div class="hero-logo">
+  <img src="IMG_8730.png" alt="Fish Point">
+</div>
     <div class="hero-subtitle">
       Меню и обучение официантов
     </div>
