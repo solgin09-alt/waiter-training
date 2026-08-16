@@ -979,20 +979,6 @@ window.addEventListener("scroll", () => {
   }
 });
 
-  const scale = 1 - progress * 0.38;
-  const opacity = 1 - progress;
-  const moveY = progress * 70;
-
-  heroContent.style.transform =
-    `translateY(${moveY}px) scale(${scale})`;
-
-  heroContent.style.opacity = opacity;
-  const heroOpacity = 1 - progress * 0.92;
-const heroScale = 1 - progress * 0.04;
-
-hero.style.opacity = heroOpacity;
-hero.style.transform = `scale(${heroScale})`;
-});
   let lastScrollY = window.scrollY;
 let scrollDirection = "down";
 
