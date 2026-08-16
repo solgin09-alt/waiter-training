@@ -416,7 +416,56 @@
           <label>Подсказка официанту</label>
           <textarea id="dishWaiterNote"></textarea>
         </div>
+<div class="card" id="dishPreviewCard" style="padding:0; overflow:hidden;">
 
+  <img
+    id="dishPreviewImage"
+    src=""
+    alt=""
+    style="
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      background:#ececec;
+      display:none;
+    "
+  >
+
+  <div style="padding:16px;">
+
+    <div
+      id="dishPreviewName"
+      style="
+        font-size:22px;
+        font-weight:800;
+        margin-bottom:8px;
+      "
+    >
+      Название блюда
+    </div>
+
+    <div
+      id="dishPreviewDescription"
+      style="
+        color:#444;
+        line-height:1.45;
+        margin-bottom:10px;
+      "
+    >
+      Короткое описание
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <strong>Состав:</strong>
+      <span id="dishPreviewIngredients">—</span>
+    </div>
+
+    <div>
+      <strong>Официанту:</strong>
+      <span id="dishPreviewNote">—</span>
+    </div>
+
+  </div>
         <div class="field">
           <label>Фото</label>
           <input id="dishPhoto" type="file" accept="image/*">
@@ -579,7 +628,20 @@ const dishVisible = document.getElementById("dishVisible");
 const saveDishBtn = document.getElementById("saveDishBtn");
 const cancelDishBtn = document.getElementById("cancelDishBtn");
 const dishMessage = document.getElementById("dishMessage");
+const dishPreviewName =
+  document.getElementById("dishPreviewName");
 
+const dishPreviewDescription =
+  document.getElementById("dishPreviewDescription");
+
+const dishPreviewIngredients =
+  document.getElementById("dishPreviewIngredients");
+
+const dishPreviewNote =
+  document.getElementById("dishPreviewNote");
+
+const dishPreviewImage =
+  document.getElementById("dishPreviewImage");
 const openSectionFormBtn = document.getElementById("openSectionFormBtn");
 const sectionFormCard = document.getElementById("sectionFormCard");
 const sectionFormTitle = document.getElementById("sectionFormTitle");
@@ -588,7 +650,41 @@ const sectionOrder = document.getElementById("sectionOrder");
 const saveSectionBtn = document.getElementById("saveSectionBtn");
 const cancelSectionBtn = document.getElementById("cancelSectionBtn");
 const sectionMessage = document.getElementById("sectionMessage");
+function updateDishPreview() {
 
+  dishPreviewName.textContent =
+    dishName.value.trim() || "Название блюда";
+
+  dishPreviewDescription.textContent =
+    dishDescription.value.trim() || "Короткое описание";
+
+  dishPreviewIngredients.textContent =
+    dishIngredients.value.trim() || "—";
+
+  dishPreviewNote.textContent =
+    dishWaiterNote.value.trim() || "—";
+}
+
+
+dishName.addEventListener(
+  "input",
+  updateDishPreview
+);
+
+dishDescription.addEventListener(
+  "input",
+  updateDishPreview
+);
+
+dishIngredients.addEventListener(
+  "input",
+  updateDishPreview
+);
+
+dishWaiterNote.addEventListener(
+  "input",
+  updateDishPreview
+);
 
 /* ---------- ВХОД ---------- */
 
@@ -922,8 +1018,13 @@ dishPhoto.addEventListener("change", () => {
 
   if (!file) return;
 
-  photoPreview.src = URL.createObjectURL(file);
+  const imageUrl = URL.createObjectURL(file);
+
+  photoPreview.src = imageUrl;
   photoPreview.style.display = "block";
+
+  dishPreviewImage.src = imageUrl;
+  dishPreviewImage.style.display = "block";
 });
 
 async function uploadPhoto(file) {
@@ -1139,15 +1240,20 @@ function editDish(id) {
   dishDescription.value = dish.short_description || "";
   dishIngredients.value = dish.ingredients || "";
   dishWaiterNote.value = dish.waiter_note || "";
+  updateDishPreview();
   dishOrder.value = dish.sort_order ?? 0;
   dishVisible.checked = dish.is_visible;
 
   if (dish.photo_url) {
     photoPreview.src = dish.photo_url;
     photoPreview.style.display = "block";
+      dishPreviewImage.src = dish.photo_url;
+  dishPreviewImage.style.display = "block";
   } else {
     photoPreview.removeAttribute("src");
     photoPreview.style.display = "none";
+      dishPreviewImage.removeAttribute("src");
+  dishPreviewImage.style.display = "none";
   }
 
   dishFormTitle.textContent = "Редактировать блюдо";
@@ -1176,6 +1282,10 @@ function resetDishForm() {
 
   dishFormTitle.textContent = "Новое блюдо";
   dishMessage.textContent = "";
+  updateDishPreview();
+
+dishPreviewImage.removeAttribute("src");
+dishPreviewImage.style.display = "none";
 }
 
 
