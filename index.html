@@ -89,26 +89,30 @@ height: 28px;
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 
   background:
     repeating-radial-gradient(
-      ellipse at 50% 40%,
-      transparent 0px,
-      transparent 8px,
-      rgba(135, 205, 207, 0.025) 9px,
-      transparent 11px
+      ellipse at 50% 38%,
+      rgba(140, 210, 214, 0.00) 0px,
+      rgba(140, 210, 214, 0.00) 10px,
+      rgba(140, 210, 214, 0.07) 11px,
+      rgba(140, 210, 214, 0.02) 13px,
+      transparent 16px
     ),
     repeating-linear-gradient(
-      8deg,
+      6deg,
       transparent 0px,
-      transparent 13px,
-      rgba(255,255,255,0.012) 14px,
-      transparent 16px
+      transparent 18px,
+      rgba(255,255,255,0.025) 19px,
+      transparent 22px
     );
 
-  opacity: 0.75;
+  opacity: 0.9;
+
+  transform: scale(1.08);
+  filter: blur(0.3px);
 }
     .hero::after {
   content: "";
