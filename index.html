@@ -168,11 +168,31 @@
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      color: #111;
-    }
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #f3f1ec;
+
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(44, 104, 105, 0.20),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(18, 74, 80, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #0a1517 0%,
+      #0d1a1b 35%,
+      #16120f 72%,
+      #0b0b0b 100%
+    );
+
+  background-attachment: fixed;
+}
 
     .header {
       position: sticky;
@@ -198,18 +218,52 @@
     }
 
     .container {
-      padding: 16px;
-    }
+  padding: 18px 14px 50px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 21, 23, 0.96),
+      rgba(20, 16, 13, 0.96)
+    );
+
+  position: relative;
+}
+    .container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(76, 142, 147, 0.08),
+      transparent 40%
+    );
+
+  mix-blend-mode: screen;
+}
 
     .section {
       margin-bottom: 28px;
     }
 
     .section-title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 14px;
+
+  color: #f3eee5;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
 
     .cards {
       display: flex;
@@ -220,14 +274,28 @@
     }
 
     .card {
-      min-width: 82vw;
-      max-width: 340px;
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      scroll-snap-align: start;
-      box-shadow: 0 3px 14px rgba(0,0,0,0.08);
-    }
+  min-width: 78vw;
+  max-width: 320px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(33, 30, 27, 0.96),
+      rgba(20, 18, 16, 0.98)
+    );
+
+  color: #f6f2eb;
+
+  border-radius: 18px;
+  overflow: hidden;
+  scroll-snap-align: start;
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
 
     .card img {
       width: 100%;
@@ -247,18 +315,19 @@
     }
 
     .description {
-      font-size: 15px;
-      line-height: 1.4;
-      color: #333;
-      margin-bottom: 8px;
-    }
+    font-size: 15px;
+    line-height: 1.5;
+    color: #d7d1c9;
+    margin-bottom: 10px;
+}
 
-    .ingredients,
-    .waiter-note {
-      font-size: 14px;
-      line-height: 1.4;
-      margin-top: 8px;
-    }
+.ingredients,
+.waiter-note {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 8px;
+    color: #ece6dd;
+}
 
     .label {
       font-weight: 700;
