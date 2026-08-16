@@ -727,6 +727,24 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
     .hidden {
       display: none;
     }
+    .hidden-menu {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+
+  transition:
+    max-height 1.2s cubic-bezier(.2,.8,.2,1),
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.hidden-menu.open {
+  max-height: 10000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+    
   </style>
 </head>
 
@@ -799,12 +817,9 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
       Начать обучение
       <span>↓</span>
     </button>
+  </section>
 
-  </div>
-
-</section>
-
-<header class="header">
+    <div id="menuGate" class="hidden-menu">
   <header class="header">
     <div class="logo">Fish Point</div>
     <input
@@ -818,6 +833,8 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
   <main class="container" id="menuContainer">
   <div>Загрузка меню...</div>
   </main>
+
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1132,6 +1149,23 @@ startTraining?.addEventListener("click", () => {
     block: "start"
   });
 });
+  const startTraining =
+  document.getElementById("startTraining");
+
+const menuGate =
+  document.getElementById("menuGate");
+
+startTraining?.addEventListener("click", () => {
+  menuGate?.classList.add("open");
+
+  setTimeout(() => {
+    menuGate?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 180);
+});
+  
 </script>
 
 </body>
