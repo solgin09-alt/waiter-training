@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+      will-change: opacity, transform;
 
   background:
     radial-gradient(
@@ -61,6 +62,11 @@
   text-align: center;
   color: white;
   padding: 24px;
+  transform-origin: center center;
+will-change: transform, opacity, filter;
+transition: transform 0.08s linear,
+            opacity 0.08s linear,
+            filter 0.08s linear;
 }
 
 .hero-logo {
@@ -487,6 +493,37 @@
   });
 
   loadMenu();
+  const hero = document.querySelector(".hero");
+const heroContent = document.querySelector(".hero-content");
+
+window.addEventListener("scroll", () => {
+  if (!hero || !heroContent) return;
+
+  const heroHeight = hero.offsetHeight;
+  const scrollY = window.scrollY;
+
+  // 0 в начале, 1 когда hero почти прокручен
+  const progress = Math.min(
+    Math.max(scrollY / (heroHeight * 0.85), 0),
+    1
+  );
+
+  const scale = 1 - progress * 0.38;
+  const opacity = 1 - progress;
+  const blur = progress * 5;
+  const moveY = progress * 70;
+
+  heroContent.style.transform =
+    `translateY(${moveY}px) scale(${scale})`;
+
+  heroContent.style.opacity = opacity;
+  heroContent.style.filter = `blur(${blur}px)`;
+  const heroOpacity = 1 - progress * 0.92;
+const heroScale = 1 - progress * 0.04;
+
+hero.style.opacity = heroOpacity;
+hero.style.transform = `scale(${heroScale})`;
+});
 </script>
 
 </body>
