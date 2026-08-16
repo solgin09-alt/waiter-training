@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
       will-change: opacity, transform;
 
   background:
@@ -292,11 +292,15 @@ transition: transform 0.08s linear,
 }
 
 .hero-logo img {
-  width: min(78vw, 520px);
-  max-height: 46vh;
+  width: min(72vw, 480px);
+  height: auto;
+  max-height: none;
   object-fit: contain;
-.hero-logo {
-  position: relative;
+
+  display: block;
+
+  filter:
+    drop-shadow(0 10px 30px rgba(0,0,0,0.35));
 }
 
 .hero-logo::before {
