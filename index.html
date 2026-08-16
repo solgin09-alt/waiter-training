@@ -68,6 +68,173 @@ transition: transform 0.08s linear,
             opacity 0.08s linear,
             filter 0.08s linear;
 }
+    .welcome {
+  position: relative;
+  padding: 72px 22px 84px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(168, 112, 52, 0.08),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #0b1415 0%,
+      #10191a 45%,
+      #17120f 100%
+    );
+
+  color: #eee7dc;
+}
+
+.welcome::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+}
+
+.welcome-inner {
+  position: relative;
+  z-index: 2;
+
+  max-width: 680px;
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.welcome-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: rgba(196, 143, 78, 0.78);
+
+  margin-bottom: 14px;
+}
+
+.welcome-title {
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 10vw, 64px);
+  font-weight: 400;
+  line-height: 1.02;
+
+  color: #f4eee5;
+
+  text-shadow:
+    0 6px 28px rgba(0,0,0,0.24);
+}
+
+.welcome-line {
+  width: 58px;
+  height: 1px;
+
+  margin: 24px auto 30px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(193, 133, 65, 0.9),
+      transparent
+    );
+}
+
+.welcome p {
+  margin: 0 auto 22px;
+
+  max-width: 590px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.72;
+
+  color: rgba(238, 232, 222, 0.82);
+}
+
+.welcome-lead {
+  font-size: 20px !important;
+  color: rgba(246, 239, 229, 0.96) !important;
+}
+
+.welcome-quote {
+  margin: 46px auto 38px;
+  padding: 26px 18px;
+
+  max-width: 560px;
+
+  border-top:
+    1px solid rgba(191, 132, 67, 0.26);
+
+  border-bottom:
+    1px solid rgba(191, 132, 67, 0.26);
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.7;
+
+  color: #e9dfd1;
+}
+
+.welcome-quote span,
+.welcome-quote strong {
+  display: block;
+}
+
+.welcome-quote strong {
+  margin-top: 6px;
+
+  color: #c99558;
+  font-weight: 400;
+}
+
+.welcome-button {
+  border:
+    1px solid rgba(197, 144, 78, 0.45);
+
+  border-radius: 999px;
+
+  padding: 14px 22px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  color: #f4eee5;
+
+  font-size: 15px;
+  letter-spacing: 0.03em;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.welcome-button span {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.welcome-button:active {
+  transform: scale(0.97);
+}
     .section {
   margin-bottom: 28px;
 
@@ -483,6 +650,63 @@ transition: transform 0.08s linear,
     </div>
   </div>
 </section>
+  <section class="welcome">
+
+  <div class="welcome-inner">
+
+    <div class="welcome-eyebrow">
+      FISH POINT
+    </div>
+
+    <h1 class="welcome-title">
+      Добро пожаловать
+    </h1>
+
+    <div class="welcome-line"></div>
+
+    <p class="welcome-lead">
+      Эта платформа создана специально для нашей команды —
+      чтобы обучение было проще, быстрее и удобнее.
+    </p>
+
+    <p>
+      Здесь собрано всё, что поможет тебе уверенно
+      ориентироваться в меню, лучше понимать наши блюда
+      и чувствовать себя комфортнее в работе с гостями.
+    </p>
+
+    <p>
+      Не нужно держать всё в голове или искать информацию
+      в разных источниках — всё необходимое всегда под рукой.
+    </p>
+
+    <p>
+      Мы ценим каждого, кто является частью Fish Point.
+      Нам важно не только качество сервиса для наших гостей,
+      но и то, насколько комфортно чувствует себя наша команда.
+    </p>
+
+    <p>
+      Учись в удобном темпе, возвращайся к материалам
+      в любой момент и становись увереннее с каждым днём.
+    </p>
+
+    <div class="welcome-quote">
+      <span>Знания дают уверенность.</span>
+      <span>Уверенность создаёт сервис.</span>
+      <strong>А сервис создаёт Fish Point.</strong>
+    </div>
+
+    <button class="welcome-button" id="startTraining">
+      Начать обучение
+      <span>↓</span>
+    </button>
+
+  </div>
+
+</section>
+
+<header class="header">
   <header class="header">
     <div class="logo">Fish Point</div>
     <input
@@ -743,6 +967,54 @@ function observeSections() {
 
     });
 }
+  const welcomeItems = document.querySelectorAll(
+  ".welcome-eyebrow, .welcome-title, .welcome-line, .welcome p, .welcome-quote, .welcome-button"
+);
+
+welcomeItems.forEach(item => {
+  item.style.opacity = "0";
+  item.style.transform = "translateY(34px)";
+  item.style.transition =
+    "opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1)";
+});
+
+const welcomeObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = [...welcomeItems].indexOf(entry.target);
+
+        setTimeout(() => {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }, Math.max(index, 0) * 90);
+
+        welcomeObserver.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.18,
+    rootMargin: "0px 0px -8% 0px"
+  }
+);
+
+welcomeItems.forEach(item => {
+  welcomeObserver.observe(item);
+});
+
+const startTraining =
+  document.getElementById("startTraining");
+
+const menuHeader =
+  document.querySelector(".header");
+
+startTraining?.addEventListener("click", () => {
+  menuHeader?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
 </script>
 
 </body>
