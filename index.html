@@ -63,57 +63,18 @@ height: 28px;
   overflow: hidden;
 
   background:
-  radial-gradient(
-    ellipse at 50% 42%,
-    rgba(49, 126, 132, 0.34) 0%,
-    rgba(22, 76, 81, 0.22) 30%,
-    transparent 62%
-  ),
-  radial-gradient(
-    ellipse at 15% 20%,
-    rgba(54, 119, 124, 0.16),
-    transparent 45%
-  ),
   linear-gradient(
     180deg,
-    #0b292c 0%,
-    #092326 35%,
-    #071a1c 72%,
-    #061315 100%
-  );
+    rgba(3, 17, 20, 0.18) 0%,
+    rgba(3, 18, 20, 0.28) 48%,
+    rgba(2, 12, 14, 0.78) 100%
+  ),
+  url("water-bg.png") center center / cover no-repeat;
 
   isolation: isolate;
   will-change: opacity, transform;
 }
-    .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-
-  background:
-    repeating-radial-gradient(
-      ellipse at 50% 38%,
-      rgba(140, 210, 214, 0.00) 0px,
-      rgba(140, 210, 214, 0.00) 10px,
-      rgba(140, 210, 214, 0.07) 11px,
-      rgba(140, 210, 214, 0.02) 13px,
-      transparent 16px
-    ),
-    repeating-linear-gradient(
-      6deg,
-      transparent 0px,
-      transparent 18px,
-      rgba(255,255,255,0.025) 19px,
-      transparent 22px
-    );
-
-  opacity: 0.9;
-
-  transform: scale(1.08);
-  filter: blur(0.3px);
-}
+    
     .hero::after {
   content: "";
   position: absolute;
