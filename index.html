@@ -110,9 +110,8 @@ height: 28px;
   padding: 24px;
   transform-origin: center center;
 will-change: transform, opacity, filter;
-transition: transform 0.08s linear,
-            opacity 0.08s linear,
-            filter 0.08s linear;
+transition: transform 0.05s linear,
+            opacity 0.05s linear,
 }
     .welcome {
   position: relative;
@@ -966,14 +965,12 @@ window.addEventListener("scroll", () => {
 
   const scale = 1 - progress * 0.38;
   const opacity = 1 - progress;
-  const blur = progress * 5;
   const moveY = progress * 70;
 
   heroContent.style.transform =
     `translateY(${moveY}px) scale(${scale})`;
 
   heroContent.style.opacity = opacity;
-  heroContent.style.filter = `blur(${blur}px)`;
   const heroOpacity = 1 - progress * 0.92;
 const heroScale = 1 - progress * 0.04;
 
