@@ -6,6 +6,41 @@
   <title>Fish Point — обучение официантов</title>
 
   <style>
+    .wood-divider {
+  position: absolute;
+
+  left: -10%;
+  right: -10%;
+  bottom: -26px;
+
+  height: 76px;
+
+  background:
+    repeating-linear-gradient(
+      8deg,
+      rgba(255,255,255,0.025) 0px,
+      rgba(255,255,255,0.025) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(
+      180deg,
+      #6a4022 0%,
+      #4a2a16 55%,
+      #2c180d 100%
+    );
+
+  border-radius:
+    50% 50% 0 0 /
+    100% 100% 0 0;
+
+  box-shadow:
+    0 -1px 0 rgba(210, 150, 79, 0.45),
+    0 -10px 28px rgba(0,0,0,0.25);
+
+  z-index: 5;
+  pointer-events: none;
+}
    .hero {
   position: relative;
   min-height: 100vh;
@@ -48,31 +83,6 @@
 
   opacity: 0.55;
   mix-blend-mode: screen;
-}
-    .hero::before {
-  content: "";
-  position: absolute;
-
-  left: -8%;
-  right: -8%;
-  bottom: -34px;
-
-  height: 78px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(82, 48, 26, 0.98),
-      rgba(48, 27, 15, 0.98)
-    );
-
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-
-  box-shadow:
-    0 -1px 0 rgba(196, 130, 63, 0.35),
-    0 -8px 24px rgba(0,0,0,0.26);
-
-  z-index: 3;
 }
 
 .hero::before {
@@ -705,6 +715,7 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
       ↓
     </div>
   </div>
+    <div class="wood-divider"></div>
 </section>
   <section class="welcome">
 
