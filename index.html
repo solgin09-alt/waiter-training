@@ -986,6 +986,102 @@ body.training-started #menuGate {
   transform: none;
   overflow: visible;
 }
+    .welcome.burning-away,
+.hero.burning-away {
+  pointer-events: none;
+
+  animation:
+    burnAway 1.15s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.welcome.burning-away::before,
+.hero.burning-away::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 190, 80, 0.10) 45%,
+      rgba(255, 125, 30, 0.42) 70%,
+      rgba(255, 230, 150, 0.85) 88%,
+      rgba(255,255,255,0.95) 100%
+    );
+
+  mix-blend-mode: screen;
+
+  animation:
+    burnGlow 1.15s ease forwards;
+}
+
+#menuGate.menu-reveal {
+  animation:
+    menuReveal 1s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes burnAway {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) blur(0);
+  }
+
+  45% {
+    opacity: 0.92;
+    transform: scale(1.01);
+    filter: brightness(1.35) blur(1px);
+  }
+
+  75% {
+    opacity: 0.45;
+    transform: scale(1.025);
+    filter: brightness(1.8) blur(3px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.045);
+    filter: brightness(2.1) blur(7px);
+  }
+}
+
+@keyframes burnGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+
+  45% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-35%);
+  }
+}
+
+@keyframes menuReveal {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(45px)
+      scale(0.96);
+    filter: blur(6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+    filter: blur(0);
+  }
+}
   </style>
 </head>
 
@@ -1469,21 +1565,33 @@ const menuGate =
   document.getElementById("menuGate");
 
 function enterTraining() {
-  menuGate?.classList.add("open");
+  const hero =
+    document.querySelector(".hero");
 
-  document.body.classList.add(
-    "training-started"
-  );
+  const welcome =
+    document.querySelector(".welcome");
 
-  sessionStorage.setItem(
-    "fishPointTrainingStarted",
-    "true"
-  );
+  hero?.classList.add("burning-away");
+  welcome?.classList.add("burning-away");
 
-  window.scrollTo({
-    top: 0,
-    behavior: "instant"
-  });
+  setTimeout(() => {
+    menuGate?.classList.add("open");
+    menuGate?.classList.add("menu-reveal");
+
+    document.body.classList.add(
+      "training-started"
+    );
+
+    sessionStorage.setItem(
+      "fishPointTrainingStarted",
+      "true"
+    );
+
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+  }, 950);
 }
 
 startTraining?.addEventListener(
