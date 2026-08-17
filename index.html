@@ -572,7 +572,189 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
   margin-bottom: 9px;
 }
 
+    .header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-button {
+  flex-shrink: 0;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+
+  background:
+    rgba(255,255,255,0.07);
+
+  color: #f3eee5;
+
+  font-size: 22px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.menu-button:active {
+  transform: scale(0.94);
+
+  background:
+    rgba(255,255,255,0.12);
+
+  border-color:
+    rgba(190, 128, 62, 0.38);
+}
+    .sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+
+  background: rgba(0, 0, 0, 0.48);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.32s ease;
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.sidebar-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: min(82vw, 340px);
+
+  z-index: 100;
+
+  padding: 22px 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 24, 26, 0.98),
+      rgba(16, 18, 17, 0.99)
+    );
+
+  border-right:
+    1px solid rgba(255,255,255,0.06);
+
+  box-shadow:
+    18px 0 45px rgba(0,0,0,0.38);
+
+  transform: translateX(-105%);
+
+  transition:
+    transform 0.42s cubic-bezier(.22,.8,.2,1);
+
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 26px;
+}
+
+.sidebar-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+
+  color: #f2ece3;
+}
+
+.sidebar-close {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.05);
+
+  color: #f2ece3;
+
+  font-size: 27px;
+  line-height: 1;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-link {
+  width: 100%;
+
+  border: 0;
+  border-radius: 12px;
+
+  padding: 13px 14px;
+
+  background: transparent;
+
+  color: rgba(244,238,229,0.82);
+
+  text-align: left;
+  font-size: 16px;
+
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    transform 0.22s ease;
+}
+
+.sidebar-link:active {
+  transform: scale(0.98);
+}
+
+.sidebar-link.active {
+  background:
+    rgba(185, 122, 57, 0.14);
+
+  color: #d6a15f;
+}
+
+.sidebar-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+    
     .search {
+  flex: 1;
   width: 100%;
   padding: 13px 16px;
 
@@ -834,13 +1016,63 @@ body.training-started #menuGate {
     <div id="menuGate" class="hidden-menu">
   <header class="header">
     <div class="logo">Fish Point</div>
+    <div class="header-row">
+  <button
+    id="menuButton"
+    class="menu-button"
+    type="button"
+    aria-label="Открыть меню"
+  >
+    ☰
+  </button>
     <input
       id="searchInput"
       class="search"
       type="text"
       placeholder="Поиск блюда..."
     />
+      
+      </div>
+    
   </header>
+
+ <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<aside id="sidebar" class="sidebar">
+
+  <div class="sidebar-top">
+    <div class="sidebar-title">
+      Fish Point
+    </div>
+
+    <button
+      id="closeSidebar"
+      class="sidebar-close"
+      type="button"
+      aria-label="Закрыть меню"
+    >
+      ×
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <button
+  id="allMenuButton"
+  class="sidebar-link active"
+  data-section="all"
+>
+  Всё меню
+</button>
+
+    <div
+      id="sidebarSections"
+      class="sidebar-sections"
+    ></div>
+
+  </nav>
+
+</aside>
 
   <main class="container" id="menuContainer">
   <div>Загрузка меню...</div>
@@ -905,6 +1137,8 @@ body.training-started #menuGate {
       if (!dishes.length) return;
 
       const sectionElement = document.createElement("section");
+      sectionElement.dataset.sectionId =
+  section.id;
       sectionElement.className = "section";
 
       sectionElement.innerHTML = `
@@ -956,6 +1190,7 @@ body.training-started #menuGate {
     });
 
     observeSections();
+    renderSidebarSections();
 
   if (!menuContainer.children.length) {
   menuContainer.innerHTML = "Ничего не найдено";
@@ -1188,6 +1423,107 @@ if (
   document.body.classList.add(
     "training-started"
   );
+}
+  const menuButton =
+  document.getElementById("menuButton");
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const sidebarOverlay =
+  document.getElementById("sidebarOverlay");
+
+const closeSidebar =
+  document.getElementById("closeSidebar");
+
+const sidebarSections =
+  document.getElementById("sidebarSections");
+  const allMenuButton =
+  document.getElementById("allMenuButton");
+
+
+function openSidebar() {
+  sidebar?.classList.add("open");
+  sidebarOverlay?.classList.add("open");
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closeSidebarMenu() {
+  sidebar?.classList.remove("open");
+  sidebarOverlay?.classList.remove("open");
+
+  document.body.style.overflow = "";
+}
+
+
+menuButton?.addEventListener(
+  "click",
+  openSidebar
+);
+
+
+closeSidebar?.addEventListener(
+  "click",
+  closeSidebarMenu
+);
+
+
+sidebarOverlay?.addEventListener(
+  "click",
+  closeSidebarMenu
+);
+  allMenuButton?.addEventListener(
+  "click",
+  () => {
+    closeSidebarMenu();
+
+    document
+      .querySelector(".header")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+  }
+);
+
+
+function renderSidebarSections() {
+  if (!sidebarSections) return;
+
+  sidebarSections.innerHTML = "";
+
+  allSections.forEach(section => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "sidebar-link";
+
+    button.textContent =
+      section.name;
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const sectionElement =
+          document.querySelector(
+            `[data-section-id="${section.id}"]`
+          );
+
+        closeSidebarMenu();
+
+        sectionElement?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
+
+    sidebarSections.appendChild(button);
+  });
 }
   
 </script>
