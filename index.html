@@ -986,98 +986,127 @@ body.training-started #menuGate {
   transform: none;
   overflow: visible;
 }
-    .welcome.burning-away,
-.hero.burning-away {
-  pointer-events: none;
-
-  animation:
-    burnAway 1.15s cubic-bezier(.4,0,.2,1) forwards;
+    .welcome,
+.hero {
+  position: relative;
 }
 
-.welcome.burning-away::before,
-.hero.burning-away::before {
-  content: "";
-  position: absolute;
+.burn-layer {
+  position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 999;
   pointer-events: none;
 
+  opacity: 0;
+
   background:
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(255, 190, 80, 0.10) 45%,
-      rgba(255, 125, 30, 0.42) 70%,
-      rgba(255, 230, 150, 0.85) 88%,
-      rgba(255,255,255,0.95) 100%
+    radial-gradient(
+      circle at 42% 42%,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,210,120,0.86) 4%,
+      rgba(255,120,35,0.62) 8%,
+      transparent 15%
+    ),
+    radial-gradient(
+      circle at 60% 48%,
+      rgba(255,255,255,0.92) 0%,
+      rgba(255,195,95,0.80) 4%,
+      rgba(255,105,25,0.58) 9%,
+      transparent 16%
+    ),
+    radial-gradient(
+      circle at 50% 58%,
+      rgba(255,255,255,0.90) 0%,
+      rgba(255,200,105,0.78) 4%,
+      rgba(255,110,28,0.56) 9%,
+      transparent 17%
     );
 
   mix-blend-mode: screen;
 
+  transform: scale(0.3);
+
+  filter: blur(1px);
+
   animation:
-    burnGlow 1.15s ease forwards;
+    burnBurst 0.72s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.burn-hide {
+  animation:
+    burnDisappear 0.72s ease forwards;
 }
 
 #menuGate.menu-reveal {
   animation:
-    menuReveal 1s cubic-bezier(.2,.8,.2,1) forwards;
+    menuRevealFast 0.42s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
-@keyframes burnAway {
+@keyframes burnBurst {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+    filter: blur(0);
+  }
+
+  22% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 0.95;
+    transform: scale(2.2);
+    filter: blur(1.5px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(3.1);
+    filter: blur(3px);
+  }
+}
+
+@keyframes burnDisappear {
   0% {
     opacity: 1;
-    transform: scale(1);
-    filter: brightness(1) blur(0);
+    filter:
+      brightness(1)
+      saturate(1);
   }
 
   45% {
-    opacity: 0.92;
-    transform: scale(1.01);
-    filter: brightness(1.35) blur(1px);
+    opacity: 0.88;
+    filter:
+      brightness(1.28)
+      saturate(1.18);
   }
 
-  75% {
-    opacity: 0.45;
-    transform: scale(1.025);
-    filter: brightness(1.8) blur(3px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.045);
-    filter: brightness(2.1) blur(7px);
-  }
-}
-
-@keyframes burnGlow {
-  0% {
-    opacity: 0;
-    transform: translateY(30%);
-  }
-
-  45% {
-    opacity: 0.5;
+  78% {
+    opacity: 0.30;
+    filter:
+      brightness(1.8)
+      saturate(1.35);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(-35%);
+    filter:
+      brightness(2.1)
+      saturate(1.5);
   }
 }
 
-@keyframes menuReveal {
+@keyframes menuRevealFast {
   0% {
     opacity: 0;
     transform:
-      translateY(45px)
-      scale(0.96);
-    filter: blur(6px);
+      scale(0.985);
+    filter: blur(2px);
   }
 
   100% {
     opacity: 1;
     transform:
-      translateY(0)
       scale(1);
     filter: blur(0);
   }
@@ -1571,13 +1600,34 @@ function enterTraining() {
   const welcome =
     document.querySelector(".welcome");
 
-  hero?.classList.add("burning-away");
-  welcome?.classList.add("burning-away");
+  const burnLayer =
+    document.createElement("div");
 
+  burnLayer.className =
+    "burn-layer";
+
+  document.body.appendChild(
+    burnLayer
+  );
+
+  hero?.classList.add(
+    "burn-hide"
+  );
+
+  welcome?.classList.add(
+    "burn-hide"
+  );
+
+  // Меню готовим почти сразу,
+  // чтобы не было ощущения загрузки.
   setTimeout(() => {
     menuGate?.classList.add("open");
-    menuGate?.classList.add("menu-reveal");
+    menuGate?.classList.add(
+      "menu-reveal"
+    );
+  }, 220);
 
+  setTimeout(() => {
     document.body.classList.add(
       "training-started"
     );
@@ -1591,7 +1641,9 @@ function enterTraining() {
       top: 0,
       behavior: "instant"
     });
-  }, 950);
+
+    burnLayer.remove();
+  }, 700);
 }
 
 startTraining?.addEventListener(
