@@ -1002,34 +1002,40 @@ body.training-started #menuGate {
   background:
     radial-gradient(
       circle at 42% 42%,
-      rgba(255,255,255,0.96) 0%,
-      rgba(255,210,120,0.86) 4%,
-      rgba(255,120,35,0.62) 8%,
-      transparent 15%
+      rgba(255,255,255,0.98) 0%,
+      rgba(255,218,140,0.92) 4%,
+      rgba(255,145,45,0.78) 8%,
+      rgba(120,55,18,0.75) 11%,
+      rgba(20,12,8,0.88) 14%,
+      transparent 19%
     ),
     radial-gradient(
       circle at 60% 48%,
-      rgba(255,255,255,0.92) 0%,
-      rgba(255,195,95,0.80) 4%,
-      rgba(255,105,25,0.58) 9%,
-      transparent 16%
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,205,120,0.88) 4%,
+      rgba(255,130,35,0.75) 8%,
+      rgba(110,48,16,0.72) 11%,
+      rgba(18,11,8,0.88) 14%,
+      transparent 20%
     ),
     radial-gradient(
       circle at 50% 58%,
-      rgba(255,255,255,0.90) 0%,
-      rgba(255,200,105,0.78) 4%,
-      rgba(255,110,28,0.56) 9%,
-      transparent 17%
+      rgba(255,255,255,0.94) 0%,
+      rgba(255,210,125,0.86) 4%,
+      rgba(255,135,40,0.72) 8%,
+      rgba(105,45,15,0.70) 11%,
+      rgba(18,10,7,0.86) 14%,
+      transparent 21%
     );
 
   mix-blend-mode: screen;
 
-  transform: scale(0.3);
+  transform: scale(0.22);
 
-  filter: blur(1px);
+  filter: blur(0.4px);
 
   animation:
-    burnBurst 0.72s cubic-bezier(.2,.8,.2,1) forwards;
+    burnBurst 1.4s cubic-bezier(.18,.72,.18,1) forwards;
 }
 
 .burn-hide {
@@ -1045,24 +1051,36 @@ body.training-started #menuGate {
 @keyframes burnBurst {
   0% {
     opacity: 0;
-    transform: scale(0.25);
+    transform: scale(0.18);
     filter: blur(0);
   }
 
-  22% {
+  16% {
     opacity: 1;
   }
 
+  45% {
+    opacity: 1;
+    transform: scale(0.9);
+    filter: blur(0.4px);
+  }
+
   72% {
-    opacity: 0.95;
-    transform: scale(2.2);
+    opacity: 0.96;
+    transform: scale(1.9);
+    filter: blur(0.8px);
+  }
+
+  92% {
+    opacity: 0.55;
+    transform: scale(2.8);
     filter: blur(1.5px);
   }
 
   100% {
     opacity: 0;
-    transform: scale(3.1);
-    filter: blur(3px);
+    transform: scale(3.4);
+    filter: blur(2.4px);
   }
 }
 
@@ -1625,7 +1643,7 @@ function enterTraining() {
     menuGate?.classList.add(
       "menu-reveal"
     );
-  }, 220);
+  }, 520);
 
   setTimeout(() => {
     document.body.classList.add(
@@ -1643,7 +1661,7 @@ function enterTraining() {
     });
 
     burnLayer.remove();
-  }, 700);
+  }, 1400);
 }
 
 startTraining?.addEventListener(
