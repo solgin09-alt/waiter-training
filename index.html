@@ -338,6 +338,46 @@ transition: transform 0.05s linear,
 
   animation: heroLogoIn 1.2s ease forwards;
 }
+    .hero-logo-shine {
+  position: absolute;
+
+  width: 72%;
+  height: 72%;
+
+  left: 14%;
+  top: 14%;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 35% 35%,
+      rgba(255, 214, 128, 0.32) 0%,
+      rgba(218, 157, 67, 0.18) 28%,
+      rgba(160, 98, 31, 0.08) 48%,
+      transparent 72%
+    );
+
+  mix-blend-mode: screen;
+
+  opacity: 0.35;
+
+  transform:
+    translate3d(0, 0, 0)
+    scale(1);
+
+  transition:
+    opacity 0.12s linear;
+
+  z-index: 2;
+}
+
+.hero-logo img {
+  position: relative;
+  z-index: 3;
+}
 
 .hero-logo img {
   width: min(82vw, 560px);
@@ -949,6 +989,7 @@ body.training-started #menuGate {
   <div class="hero-content">
     <div class="hero-logo">
   <img src="IMG_8730.png" alt="Fish Point">
+      <div class="hero-logo-shine"></div>
 </div>
     <div class="hero-subtitle">
       Меню и обучение официантов
@@ -1207,6 +1248,8 @@ observeSections();
   loadMenu();
   const hero = document.querySelector(".hero");
 const heroContent = document.querySelector(".hero-content");
+  const heroShine =
+  document.querySelector(".hero-logo-shine");
 
 let heroTicking = false;
 
@@ -1232,6 +1275,25 @@ function updateHeroOnScroll() {
     `translate3d(0, ${moveY}px, 0) scale(${scale})`;
 
   heroContent.style.opacity = opacity;
+  if (heroShine) {
+  const shineX =
+    -45 + progress * 90;
+
+  const shineY =
+    18 - progress * 34;
+
+  const shineScale =
+    0.92 + progress * 0.16;
+
+  const shineOpacity =
+    0.28 + Math.sin(progress * Math.PI) * 0.45;
+
+  heroShine.style.transform =
+    `translate3d(${shineX}px, ${shineY}px, 0) scale(${shineScale})`;
+
+  heroShine.style.opacity =
+    Math.min(shineOpacity, 0.78);
+}
 
   const heroOpacity = 1 - progress * 0.92;
   const heroScale = 1 - progress * 0.04;
