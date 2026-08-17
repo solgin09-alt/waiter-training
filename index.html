@@ -1177,10 +1177,22 @@ body.training-started #menuGate {
     menuContainer.innerHTML = "";
 
     allSections.forEach(section => {
-      const dishes = allDishes.filter(dish =>
-        dish.section_id === section.id &&
-        (!query || dish.name.toLowerCase().includes(query))
-      );
+     const dishes = allDishes.filter(dish => {
+  const searchableText = [
+    dish.name,
+    dish.short_description,
+    dish.ingredients,
+    dish.waiter_note
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  return (
+    dish.section_id === section.id &&
+    (!query || searchableText.includes(query))
+  );
+});
 
       if (!dishes.length) return;
 
