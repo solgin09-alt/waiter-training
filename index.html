@@ -338,41 +338,7 @@ transition: transform 0.05s linear,
 
   animation: heroLogoIn 1.2s ease forwards;
 }
-    .hero-logo-shine {
-  position: absolute;
-
-  width: 72%;
-  height: 72%;
-
-  left: 14%;
-  top: 14%;
-
-  border-radius: 50%;
-
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 35% 35%,
-      rgba(255, 214, 128, 0.32) 0%,
-      rgba(218, 157, 67, 0.18) 28%,
-      rgba(160, 98, 31, 0.08) 48%,
-      transparent 72%
-    );
-
-  mix-blend-mode: screen;
-
-  opacity: 0.35;
-
-  transform:
-    translate3d(0, 0, 0)
-    scale(1);
-
-  transition:
-    opacity 0.12s linear;
-
-  z-index: 2;
-}
+    
 
 .hero-logo img {
   position: relative;
@@ -411,6 +377,47 @@ transition: transform 0.05s linear,
     transform 0.35s ease;
   backface-visibility: hidden;
 -webkit-backface-visibility: hidden;
+}
+    .hero-logo-light {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 28%,
+      rgba(255, 220, 150, 0.08) 40%,
+      rgba(255, 235, 185, 0.75) 49%,
+      rgba(255, 205, 110, 0.30) 54%,
+      transparent 66%
+    );
+
+  background-size: 220% 100%;
+  background-position: -120% 0;
+
+  -webkit-mask-image: url("IMG_8730.png");
+  mask-image: url("IMG_8730.png");
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  mix-blend-mode: screen;
+
+  opacity: 0;
+
+  z-index: 4;
+
+  will-change:
+    background-position,
+    opacity;
 }
     .hero-logo {
   position: relative;
@@ -989,7 +996,7 @@ body.training-started #menuGate {
   <div class="hero-content">
     <div class="hero-logo">
   <img src="IMG_8730.png" alt="Fish Point">
-      <div class="hero-logo-shine"></div>
+      <div class="hero-logo-light"></div>
 </div>
     <div class="hero-subtitle">
       Меню и обучение официантов
@@ -1248,8 +1255,8 @@ observeSections();
   loadMenu();
   const hero = document.querySelector(".hero");
 const heroContent = document.querySelector(".hero-content");
-  const heroShine =
-  document.querySelector(".hero-logo-shine");
+  const heroLight =
+  document.querySelector(".hero-logo-light");
 
 let heroTicking = false;
 
@@ -1275,24 +1282,21 @@ function updateHeroOnScroll() {
     `translate3d(0, ${moveY}px, 0) scale(${scale})`;
 
   heroContent.style.opacity = opacity;
-  if (heroShine) {
-  const shineX =
-    -45 + progress * 90;
+  if (heroLight) {
+  const lightPosition =
+    -120 + progress * 240;
 
-  const shineY =
-    18 - progress * 34;
+  const lightStrength =
+    Math.sin(progress * Math.PI);
 
-  const shineScale =
-    0.92 + progress * 0.16;
+  heroLight.style.backgroundPosition =
+    `${lightPosition}% 0`;
 
-  const shineOpacity =
-    0.28 + Math.sin(progress * Math.PI) * 0.45;
-
-  heroShine.style.transform =
-    `translate3d(${shineX}px, ${shineY}px, 0) scale(${shineScale})`;
-
-  heroShine.style.opacity =
-    Math.min(shineOpacity, 0.78);
+  heroLight.style.opacity =
+    Math.min(
+      0.15 + lightStrength * 0.9,
+      1
+    );
 }
 
   const heroOpacity = 1 - progress * 0.92;
