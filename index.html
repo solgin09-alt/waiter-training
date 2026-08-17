@@ -745,7 +745,18 @@ text-shadow: 0 3px 16px rgba(0,0,0,0.35);
   opacity: 1;
   transform: translateY(0);
 }
-    
+
+    body.training-started .hero,
+body.training-started .welcome {
+  display: none;
+}
+
+body.training-started #menuGate {
+  max-height: none;
+  opacity: 1;
+  transform: none;
+  overflow: visible;
+}
   </style>
 </head>
 
@@ -1144,16 +1155,40 @@ welcomeItems.forEach(item => {
 const menuGate =
   document.getElementById("menuGate");
 
-startTraining?.addEventListener("click", () => {
+function enterTraining() {
   menuGate?.classList.add("open");
 
-  setTimeout(() => {
-    menuGate?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }, 180);
-});
+  document.body.classList.add(
+    "training-started"
+  );
+
+  sessionStorage.setItem(
+    "fishPointTrainingStarted",
+    "true"
+  );
+
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}
+
+startTraining?.addEventListener(
+  "click",
+  enterTraining
+);
+
+if (
+  sessionStorage.getItem(
+    "fishPointTrainingStarted"
+  ) === "true"
+) {
+  menuGate?.classList.add("open");
+
+  document.body.classList.add(
+    "training-started"
+  );
+}
   
 </script>
 
