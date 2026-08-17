@@ -1585,141 +1585,21 @@ const menuGate =
   document.getElementById("menuGate");
 
 function enterTraining() {
-  const hero =
-    document.querySelector(".hero");
+  menuGate?.classList.add("open");
 
-  const welcome =
-    document.querySelector(".welcome");
-
-  const burnScreen =
-    document.createElement("div");
-
-  burnScreen.className =
-    "burn-screen";
-
-  const ember =
-    document.createElement("div");
-
-  ember.className =
-    "burn-ember";
-
-  document.body.appendChild(
-    burnScreen
+  document.body.classList.add(
+    "training-started"
   );
 
-  document.body.appendChild(
-    ember
+  sessionStorage.setItem(
+    "fishPointTrainingStarted",
+    "true"
   );
 
-  hero?.classList.add(
-    "burn-target"
-  );
-
-  welcome?.classList.add(
-    "burn-target"
-  );
-
-  const duration = 2400;
-  const startTime =
-    performance.now();
-
-  function animateBurn(now) {
-    const elapsed =
-      now - startTime;
-
-    const progress =
-      Math.min(
-        elapsed / duration,
-        1
-      );
-
-    const eased =
-      1 -
-      Math.pow(
-        1 - progress,
-        2.4
-      );
-
-    const burnSize =
-      eased * 92;
-
-    hero?.style.setProperty(
-      "--burn-progress",
-      `${burnSize}%`
-    );
-
-    welcome?.style.setProperty(
-      "--burn-progress",
-      `${burnSize}%`
-    );
-
-    burnScreen.style.setProperty(
-      "--burn-size",
-      `${burnSize}%`
-    );
-
-    const emberScale =
-      1 + Math.sin(progress * 18) * 0.18;
-
-    ember.style.transform =
-      `translate(-50%, -50%) scale(${emberScale})`;
-
-    if (progress < 1) {
-      requestAnimationFrame(
-        animateBurn
-      );
-
-      return;
-    }
-
-    menuGate?.classList.add(
-      "open"
-    );
-
-    menuGate?.classList.add(
-      "menu-reveal"
-    );
-
-    document.body.classList.add(
-      "training-started"
-    );
-
-    sessionStorage.setItem(
-      "fishPointTrainingStarted",
-      "true"
-    );
-
-    window.scrollTo({
-      top: 0,
-      behavior: "instant"
-    });
-
-    burnScreen.remove();
-    ember.remove();
-  }
-
-  requestAnimationFrame(
-    animateBurn
-  );
-}, 520);
-
-  setTimeout(() => {
-    document.body.classList.add(
-      "training-started"
-    );
-
-    sessionStorage.setItem(
-      "fishPointTrainingStarted",
-      "true"
-    );
-
-    window.scrollTo({
-      top: 0,
-      behavior: "instant"
-    });
-
-    burnLayer.remove();
-  }, 1400);
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
 }
 
 startTraining?.addEventListener(
